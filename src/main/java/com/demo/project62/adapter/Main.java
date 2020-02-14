@@ -18,27 +18,13 @@ public class Main {
 }
 
 class AlienCraft {
-    public void dracarys(String sector) {
-        System.out.println("Firing weapon at sector " + sector);
+    public void dracarys() {
+        System.out.println("Firing weapon");
     }
 
-    public void zorg(String sector) {
-        System.out.println("Scanning enemy in sector " + sector);
+    public void zorg() {
+        System.out.println("Scanning enemy");
     }
-}
-
-class EnterpriseShip implements Ship {
-
-    @Override
-    public void scan() {
-        System.out.println("Scanning enemy in front of ship!");
-    }
-
-    @Override
-    public void fire() {
-        System.out.println("Firing weapon!");
-    }
-
 }
 
 @AllArgsConstructor
@@ -47,12 +33,12 @@ class SpaceShipAdapter implements Ship {
 
     @Override
     public void scan() {
-        ship.zorg("NORTH");
+        ship.zorg();
     }
 
     @Override
     public void fire() {
-        ship.dracarys("NORTH");
+        ship.dracarys();
     }
 
 }
