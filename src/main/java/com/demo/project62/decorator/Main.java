@@ -1,69 +1,66 @@
 package com.demo.project62.decorator;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
-
-interface Car {
-
-    public void assemble();
-}
+import lombok.Data;
+import lombok.Getter;
 
 public class Main {
 
     public static void main(String[] args) {
-        Car sportsCar = new SportsCar(new BasicCar());
-        sportsCar.assemble();
-        System.out.println("--------------------------");
-        Car sportsLuxuryCar = new SportsCar(new LuxuryCar(new BasicCar()));
-        sportsLuxuryCar.assemble();
+        Pizza pizza = new ThickCrustPizza();
+        System.out.println("Pizza: " + pizza.getDescription());
+        System.out.println("Cost: " + pizza.getCost());
+
+        Cheese cheese = new Cheese(pizza);
+        System.out.println("Pizza: " + cheese.getDescription());
+        System.out.println("Cost: " + cheese.getCost());
+
+        Cheese doubleCheese = new Cheese(cheese);
+        System.out.println("Pizza: " + doubleCheese.getDescription());
+        System.out.println("Cost: " + doubleCheese.getCost());
     }
 
 }
 
-class BasicCar implements Car {
+abstract class Pizza {
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    abstract BigDecimal getCost();
+}
+
+class ThickCrustPizza extends Pizza {
+    public ThickCrustPizza() {
+        super();
+        this.description = "Thick Crust Pizza";
+    }
 
     @Override
-    public void assemble() {
-        System.out.println("Basic Car assembled.");
+    BigDecimal getCost() {
+        return new BigDecimal(10.00);
     }
+}
+
+abstract class PizzaIngredient extends Pizza {
+    public abstract String getDescription();
 }
 
 @AllArgsConstructor
-abstract class CarDecorator implements Car {
-
-    protected Car car;
+class Cheese extends PizzaIngredient {
+    private Pizza pizza;
 
     @Override
-    public void assemble() {
-        this.car.assemble();
-        System.out.println("Default features added as no specific feature requested!");
-    }
-
-}
-
-class LuxuryCar extends CarDecorator {
-
-    public LuxuryCar(Car c) {
-        super(c);
+    BigDecimal getCost() {
+        return (new BigDecimal(2.00).add(pizza.getCost()));
     }
 
     @Override
-    public void assemble() {
-        car.assemble();
-        System.out.println("Adding features of Luxury Car.");
+    public String getDescription() {
+        return this.pizza.getDescription() + " + Cheese";
     }
-
-}
-
-class SportsCar extends CarDecorator {
-
-    public SportsCar(Car c) {
-        super(c);
-    }
-
-    @Override
-    public void assemble() {
-        car.assemble();
-        System.out.println("Adding features of Sports Car.");
-    }
-
 }
