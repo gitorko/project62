@@ -31,6 +31,7 @@ class Employees implements Cloneable {
     private List<String> empList;
 
     public void seedData() {
+        //Invoke a remote call and fetch data and load it to list. The fetch is costly op.
         for (int i = 0; i < 100; i++) {
             empList.add("employee_" + i);
         }
