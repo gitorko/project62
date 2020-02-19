@@ -18,11 +18,11 @@ public class Main {
 }
 
 class AlienCraft {
-    public void dracarys() {
+    public void drakarys() {
         System.out.println("Firing weapon");
     }
 
-    public void zorg() {
+    public void jorarghugon() {
         System.out.println("Scanning enemy");
     }
 }
@@ -33,12 +33,12 @@ class SpaceShipAdapter implements Ship {
 
     @Override
     public void scan() {
-        ship.zorg();
+        ship.jorarghugon();
     }
 
     @Override
     public void fire() {
-        ship.dracarys();
+        ship.drakarys();
     }
 
 }
