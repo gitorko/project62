@@ -3,8 +3,6 @@ package com.demo.project62.decorator;
 import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
 
 public class Main {
 
@@ -24,43 +22,55 @@ public class Main {
 
 }
 
-abstract class Pizza {
-    String description;
 
-    public String getDescription() {
-        return description;
-    }
 
-    abstract BigDecimal getCost();
+interface Pizza {
+    public String getDescription();
+    public BigDecimal getCost();
 }
 
-class ThickCrustPizza extends Pizza {
-    public ThickCrustPizza() {
-        super();
-        this.description = "Thick Crust Pizza";
+class ThickCrustPizza implements Pizza {
+
+    @Override
+    public String getDescription() {
+        return "Thick Crust Pizza";
     }
 
     @Override
-    BigDecimal getCost() {
+    public BigDecimal getCost() {
         return new BigDecimal(10.00);
     }
 }
 
-abstract class PizzaIngredient extends Pizza {
-    public abstract String getDescription();
-}
-
 @AllArgsConstructor
-class Cheese extends PizzaIngredient {
-    private Pizza pizza;
+class PizzaToppingDecorator implements Pizza {
+
+    Pizza pizza;
 
     @Override
-    BigDecimal getCost() {
+    public String getDescription() {
+        return pizza.getDescription();
+    }
+
+    @Override
+    public BigDecimal getCost() {
+        return pizza.getCost();
+    }
+}
+
+class Cheese extends PizzaToppingDecorator {
+
+    public Cheese(Pizza pizza) {
+        super(pizza);
+    }
+
+    @Override
+    public BigDecimal getCost() {
         return (new BigDecimal(2.00).add(pizza.getCost()));
     }
 
     @Override
     public String getDescription() {
-        return this.pizza.getDescription() + " + Cheese";
+        return pizza.getDescription() + " + Cheese";
     }
 }
