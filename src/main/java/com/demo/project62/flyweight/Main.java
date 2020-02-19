@@ -2,14 +2,15 @@ package com.demo.project62.flyweight;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 
+//divide Object property into intrinsic and extrinsic properties
 enum BeeType {
-    WORKER, WORKER_LEADER, ATTACKER, ATTACKER_LEADER;
-
-    public static BeeType getRandom(int val) {
-        return BeeType.values()[val];
+    WORKER, ATTACKER;
+    public static BeeType getRandom() {
+        return BeeType.values()[new Random().nextInt(2)];
     }
 }
 
@@ -21,34 +22,42 @@ public class Main {
 
     public static void main(String[] args) {
         for (int i = 0; i < 100000; i++) {
-            Bee b = FlyweightBeeFactory.getBeeType(BeeType.getRandom(new Random().nextInt(4)));
-            b.carryOutMission(new Random().nextInt(100), new Random().nextInt(100));
+            int posx = new Random().nextInt(10);
+            int posy = new Random().nextInt(10);
+            FlyweightBeeFactory.getBeeType(BeeType.getRandom()).carryOutMission(posx, posy);
         }
-
         System.out.println("Total Bee objects created:" + FlyweightBeeFactory.bees.size());
     }
 }
 
-@AllArgsConstructor
 class WorkerBee implements Bee {
 
-    BeeType beeType;
+    @SneakyThrows
+    public WorkerBee() {
+        //Takes long time
+        System.out.println("Creating worker bee!");
+        TimeUnit.SECONDS.sleep(1);
+    }
 
     @Override
     public void carryOutMission(int x, int y) {
-        System.out.println(beeType + ", Depositing honey at (" + x + "," + y + ") quadrant!");
+        System.out.println("Depositing honey at (" + x + "," + y + ") quadrant!");
     }
 
 }
 
-@AllArgsConstructor
 class AttackBee implements Bee {
 
-    BeeType beeType;
+    @SneakyThrows
+    public AttackBee() {
+        //Takes long time
+        System.out.println("Creating attack bee!");
+        TimeUnit.SECONDS.sleep(1);
+    }
 
     @Override
     public void carryOutMission(int x, int y) {
-        System.out.println(beeType + ", Defending (" + x + "," + y + ") quadrant!");
+        System.out.println("Defending (" + x + "," + y + ") quadrant!");
     }
 
 }
@@ -61,13 +70,9 @@ class FlyweightBeeFactory {
         Bee bee = bees.get(beeType);
         if (bee == null) {
             if (beeType.equals(BeeType.WORKER)) {
-                bee = new WorkerBee(BeeType.WORKER);
-            } else if (beeType.equals(BeeType.WORKER_LEADER)) {
-                bee = new WorkerBee(BeeType.WORKER_LEADER);
-            } else if (beeType.equals(BeeType.ATTACKER_LEADER)) {
-                bee = new WorkerBee(BeeType.ATTACKER_LEADER);
+                bee = new WorkerBee();
             } else {
-                bee = new WorkerBee(BeeType.ATTACKER);
+                bee = new AttackBee();
             }
             bees.put(beeType, bee);
         }

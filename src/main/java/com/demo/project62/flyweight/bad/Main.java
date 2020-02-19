@@ -1,19 +1,21 @@
 package com.demo.project62.flyweight.bad;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 
 enum BeeType {
-    WORKER, WORKER_LEADER, ATTACKER, ATTACKER_LEADER;
-
-    public static BeeType getRandom(int val) {
-        return BeeType.values()[val];
+    WORKER, ATTACKER;
+    public static BeeType getRandom() {
+        //Returns random bee types.
+        return BeeType.values()[new Random().nextInt(2)];
     }
 }
 
 interface Bee {
-    public void carryOutMission();
+    public void carryOutMission(int x, int y);
 }
 
 public class Main {
@@ -21,44 +23,51 @@ public class Main {
     public static void main(String[] args) {
         int i = 0;
         for (; i < 100000; i++) {
-            BeeType beeType = BeeType.getRandom(new Random().nextInt(4));
-            if (beeType.equals(BeeType.WORKER)) {
-                new WorkerBee(BeeType.WORKER, new Random().nextInt(100), new Random().nextInt(100)).carryOutMission();
-            } else if (beeType.equals(BeeType.WORKER_LEADER)) {
-                new WorkerBee(BeeType.WORKER_LEADER, new Random().nextInt(100), new Random().nextInt(100)).carryOutMission();
-            } else if (beeType.equals(BeeType.ATTACKER_LEADER)) {
-                new WorkerBee(BeeType.ATTACKER_LEADER, new Random().nextInt(100), new Random().nextInt(100)).carryOutMission();
+            int posx =  new Random().nextInt(10);
+            int posy =  new Random().nextInt(10);
+            BeeType type = BeeType.getRandom();
+            if(type.equals(BeeType.WORKER)) {
+                new WorkerBee(BeeType.getRandom()).carryOutMission(posx,posy);
             } else {
-                new WorkerBee(BeeType.ATTACKER, new Random().nextInt(100), new Random().nextInt(100)).carryOutMission();
+                new AttackBee(BeeType.getRandom()).carryOutMission(posx,posy);
             }
+
         }
         System.out.println("Total Bee objects created:" + i);
     }
 }
 
-@AllArgsConstructor
 class WorkerBee implements Bee {
 
     BeeType beeType;
-    int x;
-    int y;
+
+    @SneakyThrows
+    public WorkerBee(BeeType beeType) {
+        //Takes long time
+        TimeUnit.SECONDS.sleep(1);
+        this.beeType = beeType;
+    }
 
     @Override
-    public void carryOutMission() {
+    public void carryOutMission(int x, int y) {
         System.out.println(beeType + ", Depositing honey at (" + x + "," + y + ") quadrant!");
     }
 
 }
 
-@AllArgsConstructor
 class AttackBee implements Bee {
 
     BeeType beeType;
-    int x;
-    int y;
+
+    @SneakyThrows
+    public AttackBee(BeeType beeType) {
+        //Takes long time
+        TimeUnit.SECONDS.sleep(1);
+        this.beeType = beeType;
+    }
 
     @Override
-    public void carryOutMission() {
+    public void carryOutMission(int x, int y) {
         System.out.println(beeType + ", Defending (" + x + "," + y + ") quadrant!");
     }
 

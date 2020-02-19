@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+//When the group of objects should behave as the single object
 public class Main {
 
     public static void main(String[] args) {
