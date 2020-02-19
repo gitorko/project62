@@ -2,6 +2,7 @@ package com.demo.project62.bridge;
 
 import lombok.AllArgsConstructor;
 
+//Decouple an abstraction from its implementation so that the two can vary independently
 interface Color {
     public void applyColor();
 }

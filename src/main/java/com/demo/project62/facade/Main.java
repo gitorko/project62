@@ -1,5 +1,6 @@
 package com.demo.project62.facade;
 
+//makes the subsystem easier to use
 enum DbType {
     ORACLE, MYSQL;
 }
