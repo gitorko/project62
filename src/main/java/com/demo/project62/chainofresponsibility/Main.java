@@ -1,13 +1,10 @@
 package com.demo.project62.chainofresponsibility;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 interface DispenseChain {
 
     void setNextChain(DispenseChain nextChain);
 
-    void dispense(Currency cur);
+    void dispense(int amount);
 }
 
 public class Main {
@@ -18,7 +15,7 @@ public class Main {
         if (amount % 10 != 0) {
             System.out.println("Amount should be in multiple of10s.");
         } else {
-            atmDispenser.c1.dispense(new Currency(amount));
+            atmDispenser.c1.dispense(amount);
         }
     }
 }
@@ -40,11 +37,6 @@ class ATMDispenseChain {
 
 }
 
-@AllArgsConstructor
-@Data
-class Currency {
-    private int amount;
-}
 
 class Dollar10Dispenser implements DispenseChain {
 
@@ -56,16 +48,16 @@ class Dollar10Dispenser implements DispenseChain {
     }
 
     @Override
-    public void dispense(Currency cur) {
-        if (cur.getAmount() >= 10) {
-            int num = cur.getAmount() / 10;
-            int remainder = cur.getAmount() % 10;
+    public void dispense(int amount) {
+        if (amount >= 10) {
+            int num = amount / 10;
+            int remainder = amount % 10;
             System.out.println("Dispensing " + num + " 10$ note");
             if (remainder != 0) {
-                this.chain.dispense(new Currency(remainder));
+                this.chain.dispense(remainder);
             }
         } else {
-            this.chain.dispense(cur);
+            this.chain.dispense(amount);
         }
     }
 }
@@ -80,16 +72,16 @@ class Dollar20Dispenser implements DispenseChain {
     }
 
     @Override
-    public void dispense(Currency cur) {
-        if (cur.getAmount() >= 20) {
-            int num = cur.getAmount() / 20;
-            int remainder = cur.getAmount() % 20;
+    public void dispense(int amount) {
+        if (amount >= 20) {
+            int num = amount / 20;
+            int remainder = amount % 20;
             System.out.println("Dispensing " + num + " 20$ note");
             if (remainder != 0) {
-                this.chain.dispense(new Currency(remainder));
+                this.chain.dispense(remainder);
             }
         } else {
-            this.chain.dispense(cur);
+            this.chain.dispense(amount);
         }
     }
 }
@@ -104,16 +96,16 @@ class Dollar50Dispenser implements DispenseChain {
     }
 
     @Override
-    public void dispense(Currency cur) {
-        if (cur.getAmount() >= 50) {
-            int num = cur.getAmount() / 50;
-            int remainder = cur.getAmount() % 50;
+    public void dispense(int amount) {
+        if (amount >= 50) {
+            int num = amount / 50;
+            int remainder = amount % 50;
             System.out.println("Dispensing " + num + " 50$ note");
             if (remainder != 0) {
-                this.chain.dispense(new Currency(remainder));
+                this.chain.dispense(remainder);
             }
         } else {
-            this.chain.dispense(cur);
+            this.chain.dispense(amount);
         }
     }
 }
