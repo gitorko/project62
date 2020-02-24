@@ -2,7 +2,7 @@ package com.demo.project62.stategy;
 
 interface PaymentStrategy {
 
-    public void pay(int amount);
+    void pay(int amount);
 }
 
 public class Main {
@@ -17,7 +17,7 @@ class CreditCardStrategy implements PaymentStrategy {
 
     @Override
     public void pay(int amount) {
-        System.out.println("Paid by creditcard: " + amount);
+        System.out.println("Paid by credit card: " + amount);
     }
 
 }
@@ -26,7 +26,7 @@ class PaypalStrategy implements PaymentStrategy {
 
     @Override
     public void pay(int amount) {
-        System.out.println("Paid by paypall: " + amount);
+        System.out.println("Paid by paypal: " + amount);
     }
 
 }
