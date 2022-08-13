@@ -1,2 +1,3 @@
-# project62
-Design Patterns
+# Project 62
+
+Java Design Patterns
